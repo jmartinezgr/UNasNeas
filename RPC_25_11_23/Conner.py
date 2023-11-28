@@ -1,15 +1,17 @@
-def obtener_numeros(limite, paso):
-    if paso == 0:
-        return set(range(1, limite + 1))
-    else:
-        arreglo = set()
-        numero = 1+paso
-        while numero <=limite:
-            arreglo.add(numero)
-            numero += 1+paso
-        return arreglo
+from math import gcd
+
+def minimo_comun_multiplo(a,b):
+    return a*b//gcd(a,b)
 
 for _ in range(int(input())):
     r, v, a, n = map(int, input().split())
-    conjunto_n = obtener_numeros(n, r) | obtener_numeros(n, v) | obtener_numeros(n, a)
-    print(len(conjunto_n))
+
+    r+=1
+    v+=1
+    a+=1
+    
+    ans = n//r + n//v + n//a 
+    ans = ans - n//minimo_comun_multiplo(r,a) -n//minimo_comun_multiplo(r,v) -n//minimo_comun_multiplo(a,v) 
+    ans += n//minimo_comun_multiplo(a,minimo_comun_multiplo(v,r))
+    
+    print(ans)
